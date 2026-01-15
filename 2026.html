@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raymond M. Cunanan | IT Portfolio</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --light: #f4f7f6;
+            --dark: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo span { color: var(--secondary); font-weight: bold; }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { color: white; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            height: 70vh;
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8)), 
+                        url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; color: white; padding: 0 20px;
+        }
+
+        #hero h1 { font-size: 3rem; margin-bottom: 10px; }
+        #hero p { font-size: 1.2rem; font-weight: 300; letter-spacing: 1px; }
+
+        .btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: 2px solid var(--secondary);
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--secondary);
+        }
+
+        section { padding: 100px 10% 60px; }
+        h2 { font-size: 2rem; color: var(--primary); margin-bottom: 40px; text-align: center; position: relative; }
+        h2::after { content: ''; width: 50px; height: 4px; background: var(--secondary); position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        /* --- SKILLS: 3D FLIP --- */
+        .flip-card { background-color: transparent; width: 100%; height: 500px; perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-radius: 15px; }
+        .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 15px; overflow: hidden; }
+        .flip-card-front img { width: 100%; height: 100%; object-fit: cover; }
+        .flip-card-back { background-color: var(--primary); color: white; transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; }
+        .flip-card-back h3 { color: var(--secondary); margin-bottom: 20px; border-bottom: 2px solid var(--secondary); width: 100%; padding-bottom: 10px; }
+        .flip-card-back ul { list-style: none; text-align: left; }
+        .flip-card-back li { margin-bottom: 10px; font-size: 1.1rem; }
+
+        /* --- EDUCATION: OVERLAY --- */
+        .skill-card-interactive { position: relative; width: 100%; height: 500px; border-radius: 15px; overflow: hidden; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .skill-card-interactive img { width: 100%; height: 100%; object-fit: cover; }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 62, 80, 0.95); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; color: white; text-align: center; opacity: 0; visibility: hidden; transition: 0.4s ease; }
+        .skill-card-interactive.show-details .overlay { opacity: 1; visibility: visible; }
+        .overlay h3 { color: var(--secondary); margin-bottom: 20px; border-bottom: 2px solid var(--secondary); width: 100%; padding-bottom: 10px; }
+        .overlay ul { list-style: none; text-align: left; }
+        .overlay li { margin-bottom: 10px; font-size: 1.1rem; }
+
+        /* --- EXPERIENCE: CHAT STYLE & FLOWING GRADIENT --- */
+        #experience {
+            background: linear-gradient(-45deg, #2c3e50, #4ca1af, #2c3e50, #1a2a3a);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            padding: 80px 15%;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-header { display: flex; align-items: center; gap: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 25px; }
+        .group-pic { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--secondary); }
+        .chat-header h2 { margin-bottom: 0; font-size: 1.2rem; color: white; text-align: left; }
+        .chat-header h2::after { display: none; }
+
+        .chat-bubble { display: flex; gap: 10px; margin-bottom: 30px; align-items: flex-end; }
+        .chat-bubble.right { flex-direction: row-reverse; }
+        .chat-img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+        
+        .message { max-width: 75%; padding: 15px; border-radius: 15px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .left .message { background: var(--secondary); border-bottom-left-radius: 2px; }
+        .right .message { background: #27ae60; border-bottom-right-radius: 2px; }
+
+        footer { background: var(--primary); color: white; padding: 40px 10%; text-align: center; }
+
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            #hero h1 { font-size: 2.2rem; }
+            .message { max-width: 85%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">RAYMOND<span>.IT</span></div>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <h1>Hi! I'm Raymond M. Cunanan</h1>
+        <p>BSIT Graduate | Iskolar ng Laguna | NCII Certified</p>
+        <a href="http://glbcl.atwebpages.com/" target="_blank" class="btn">View Sample Project</a>
+    </section>
+
+    <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="grid">
+            <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><img src="pic3.jpg" alt="Programming"></div>
+                    <div class="flip-card-back">
+                        <h3>Programming & Web</h3>
+                        <ul>
+                            <li>HTML, CSS, JavaScript</li>
+                            <li>PHP, Python, Java</li>
+                            <li>MySQL / MariaDB</li>
+                            <li>GitHub & Hostinger</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><img src="pic4.jpg" alt="Hardware"></div>
+                    <div class="flip-card-back">
+                        <h3>Hardware & Support</h3>
+                        <ul>
+                            <li>Maintenance & Troubleshooting</li>
+                            <li>Hardware Setup</li>
+                            <li>Software Installation</li>
+                            <li>NCII System Servicing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><img src="pic5.jpg" alt="Software"></div>
+                    <div class="flip-card-back">
+                        <h3>Software Suite</h3>
+                        <ul>
+                            <li>Figma, GIMP, Canva</li>
+                            <li>CapCut Video Editing</li>
+                            <li>Power BI & MS Excel</li>
+                            <li>VS Studio & PyCharm</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="chat-container">
+            <div class="chat-header">
+                <img src="pic7.jpg" alt="Group Profile" class="group-pic">
+                <div>
+                    <h2>Work Experience</h2>
+                    <p style="color: #27ae60; font-size: 0.8rem; margin:0;">Online • Professional Career</p>
+                </div>
+            </div>
+
+            <div class="chat-bubble left">
+                <img src="pic6.png" alt="Raymond" class="chat-img">
+                <div class="message">
+                    <h3>Commission Web Developer</h3>
+                    <span style="font-size: 0.75rem; opacity: 0.8; font-weight: bold;">February 2023 – June 2025</span>
+                    <p>Design and developed a system with use of programming language like HTML, CSS, Java, Python, PHP, & JavaScript. Provide a databased for the data, domain name, hosting, API and also the raw file that use.</p>
+                </div>
+            </div>
+
+            <div class="chat-bubble right">
+                <img src="pic8.png" alt="OJT" class="chat-img">
+                <div class="message">
+                    <h3>OJT Office Staff</h3>
+                    <span style="font-size: 0.75rem; opacity: 0.8; font-weight: bold;">North Point Development Bank</span>
+                    <p>Responsible for record organizing, data entry, and ensuring document confidentiality and security across digital platforms.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2>Education & Training</h2>
+        <div class="grid">
+            <div class="skill-card-interactive" onclick="this.classList.toggle('show-details')">
+                <img src="pic1.jpg" alt="Education">
+                <div class="overlay">
+                    <h3>Education</h3>
+                    <ul>
+                        <li><strong>BS in Information Technology</strong></li>
+                        <li>Polytechnic University of the Philippines</li>
+                        <li>Graduated: Nov 5, 2025</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="skill-card-interactive" onclick="this.classList.toggle('show-details')">
+                <img src="pic2.jpg" alt="Training">
+                <div class="overlay">
+                    <h3>Professional Training</h3>
+                    <ul>
+                        <li>NCII - Computer System Servicing</li>
+                        <li>PCAP: Python Essentials</li>
+                        <li>Cisco Networking Essentials</li>
+                        <li>Database Planning Intro</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>📍 Biñan City, Laguna | 📞 +63 9923209804</p>
+        <p>📧 cunanan7raymond13@gmail.com</p>
+        <p style="margin-top: 15px; font-size: 0.8rem;">&copy; 2026 Raymond M. Cunanan</p>
+    </footer>
+
+</body>
+</html>
